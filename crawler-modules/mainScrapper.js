@@ -8,10 +8,10 @@ const getExtraction = async (el, type) => {
 const writeDataInFileFor = async (filename, data) => {
   await fs.appendFile(filename, data.toString() + "\n\n", {}, (err) => {
     if (err) {
-      log;
+      console.error("!!! adding sequence of dataStream() error: " + err);
     }
-    console.log(1
-      `\n\n### web-worker writes data into the: ${filename} clusting...`
+    console.log(
+      1`\n\n### web-worker writes data into the: ${filename} clusting...`
     );
   });
 };
