@@ -10,7 +10,7 @@ const writeDataInFileFor = async (filename, data) => {
     if (err) {
       log;
     }
-    console.log(
+    console.log(1
       `\n\n### web-worker writes data into the: ${filename} clusting...`
     );
   });
@@ -21,9 +21,9 @@ const fastTemplateCreator = async (folderName) => {
     path.join(`${__dirname}/template.txt`),
     `${folderName}/sol.cpp`,
     (err) => {
-      if(err) {
-        console.error(`\n\n!!! Error while creating sol.cpp`)
-      } else{
+      if (err) {
+        console.error(`\n\n!!! Error while creating sol.cpp`);
+      } else {
         console.log(`\n\n#### sol.cpp for C++ file was created!!`);
       }
     }
