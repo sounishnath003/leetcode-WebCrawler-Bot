@@ -1,0 +1,24 @@
+{
+  "name": "leetcode-scrapper",
+  "version": "1.0.0",
+  "description": "A JavaScript Tool to scrap Leetcode Questions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "npm",
+    "leetcode",
+    "scapper",
+    "web"
+  ],
+  "author": "Sounish Nath",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.20.0",
+    "jquery": "^3.5.1",
+    "nodemon": "^2.0.5"
+  }
+}
