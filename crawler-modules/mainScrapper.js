@@ -106,7 +106,9 @@ async function fetchfromUrl(url) {
     await browser.close();
     return data;
   } catch (error) {
-    console.log(`\n*** Error Occured: ` + error);
+    console.log(
+      `\n*** Error Occured: Something Went Wrong 404 Error\n\n ## Please Try Again....`
+    );
   }
 }
 
