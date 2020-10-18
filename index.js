@@ -8,5 +8,3 @@ bufferIO.readline.question(
     bufferIO.readline.close();
   }
 );
-
-// scrapper.entryPoint(`https://leetcode.com/problems/two-sum/`);
