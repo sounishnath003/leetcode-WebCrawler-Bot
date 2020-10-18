@@ -1,3 +1,5 @@
+// rapid flows to the real DOM = flooding DataStram({}) obj
+
 function main() {
   let title = $(".css-v3d350").__reactEventHandlers$ou4q4w0vnij.children[2];
   let qType = $(".css-10o4wqw").children[0].innerText;
