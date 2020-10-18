@@ -1,42 +1,41 @@
-const { path, puppeteer, fs } = require("./imports");
+import { fs, puppeteer, path } from "./imports";
 
 const getExtraction = async (el, type) => {
   const rawText = await el.getProperty(type);
   return await rawText.jsonValue();
 };
 
-const writeDataInFileFor = async (filename, data) => {
-  await fs.appendFile(filename, data.toString() + "\n\n", {}, (err) => {
+const fromDataToFolder = async (data) => {
+  var folderName = path.join(__dirname, data.title);
+  if (!fs.existsSync(folderName)) {
+    fs.mkdirSync(folderName, { recursive: true });
+  }
+
+  await fs.writeFile(`${folderName}/readme.md`, data, (err) => {
     if (err) {
-      log;
+      console.log(`Error on Writing File ${folderName}/readme.md `, err);
     }
-    console.log(`\n### web-worker writes data into the: ${filename} clusting...`);
+    console.log(`${folderName}/readme.md file was saved`);
   });
 };
 
 const fromDataToFolder = async (data) => {
   var folderName = path.join(__dirname, data.title);
-  let fileName = `${folderName}/readme.md`;
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName, { recursive: true });
   }
 
-  await fs.writeFile(fileName, `# ${data.title}`, (err) => {
+  await fs.writeFile(`${folderName}/readme.md`, data, (err) => {
     if (err) {
       console.log(`Error on Writing File ${folderName}/readme.md `, err);
     }
-    console.log(`${data.title}/readme.md file was saved`);
+    console.log(`${folderName}/readme.md file was saved`);
   });
-
-  // clusiting partial DB sharding
-  await writeDataInFileFor(fileName, data.qType);
-  await writeDataInFileFor(fileName, data.problemStatement);
-  await writeDataInFileFor(fileName, data.details);
 };
 
 async function fetchfromUrl(url) {
   try {
-    console.log(`# Leetcode Crawler is on...`);
+    console.log(`## Leetcode Crawler is on...`);
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
@@ -70,14 +69,4 @@ async function fetchfromUrl(url) {
   }
 }
 
-const runner = async (url) => {
-  const scrappedData = await fetchfromUrl(url);
-  await fromDataToFolder(scrappedData);
-};
-
-function entryPoint() {
-  runner(`https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/`);
-  console.log(`## LeetCode Crawler already started hunting`);
-}
-
-entryPoint();
+export { getExtraction, fromDataToFolder, fetchfromUrl };
