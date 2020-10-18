@@ -1,41 +1,43 @@
-import { fs, puppeteer, path } from "./imports";
+const { puppeteer, path, fs } = require("./imports");
+
 
 const getExtraction = async (el, type) => {
   const rawText = await el.getProperty(type);
   return await rawText.jsonValue();
 };
 
-const fromDataToFolder = async (data) => {
-  var folderName = path.join(__dirname, data.title);
-  if (!fs.existsSync(folderName)) {
-    fs.mkdirSync(folderName, { recursive: true });
-  }
-
-  await fs.writeFile(`${folderName}/readme.md`, data, (err) => {
+const writeDataInFileFor = async (filename, data) => {
+  await fs.appendFile(filename, data.toString() + "\n\n", {}, (err) => {
     if (err) {
-      console.log(`Error on Writing File ${folderName}/readme.md `, err);
+      log;
     }
-    console.log(`${folderName}/readme.md file was saved`);
+    console.log(`\n### web-worker writes data into the: ${filename} clusting...`);
   });
 };
 
 const fromDataToFolder = async (data) => {
   var folderName = path.join(__dirname, data.title);
+  let fileName = `${folderName}/readme.md`;
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName, { recursive: true });
   }
 
-  await fs.writeFile(`${folderName}/readme.md`, data, (err) => {
+  await fs.writeFile(fileName, `# ${data.title}`, (err) => {
     if (err) {
       console.log(`Error on Writing File ${folderName}/readme.md `, err);
     }
-    console.log(`${folderName}/readme.md file was saved`);
+    console.log(`${data.title}/readme.md file was saved`);
   });
+
+  // clusiting partial DB sharding
+  await writeDataInFileFor(fileName, data.qType);
+  await writeDataInFileFor(fileName, data.problemStatement);
+  await writeDataInFileFor(fileName, data.details);
 };
 
 async function fetchfromUrl(url) {
   try {
-    console.log(`## Leetcode Crawler is on...`);
+    console.log(`# Leetcode Crawler is on...`);
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
@@ -69,4 +71,6 @@ async function fetchfromUrl(url) {
   }
 }
 
-export { getExtraction, fromDataToFolder, fetchfromUrl };
+
+module.exports.fetchfromUrl = fetchfromUrl;
+module.exports.fromDataToFolder = fromDataToFolder;
