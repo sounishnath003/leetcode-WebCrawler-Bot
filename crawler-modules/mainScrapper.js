@@ -1,6 +1,5 @@
 const { puppeteer, path, fs } = require("./imports");
 
-
 const getExtraction = async (el, type) => {
   const rawText = await el.getProperty(type);
   return await rawText.jsonValue();
@@ -11,13 +10,30 @@ const writeDataInFileFor = async (filename, data) => {
     if (err) {
       log;
     }
-    console.log(`\n### web-worker writes data into the: ${filename} clusting...`);
+    console.log(
+      `\n\n### web-worker writes data into the: ${filename} clusting...`
+    );
   });
 };
 
+const fastTemplateCreator = async (folderName) => {
+  await fs.copyFile(
+    path.join(`${__dirname}/template.txt`),
+    `${folderName}/sol.cpp`,
+    (err) => {
+      if(err) {
+        console.error(`\n\n!!! Error while creating sol.cpp`)
+      } else{
+        console.log(`\n\n#### sol.cpp for C++ file was created!!`);
+      }
+    }
+  );
+};
+
 const fromDataToFolder = async (data) => {
-  var folderName = path.join(__dirname, data.title);
+  var folderName = path.join(__dirname, `../${data.title}`);
   let fileName = `${folderName}/readme.md`;
+
   if (!fs.existsSync(folderName)) {
     fs.mkdirSync(folderName, { recursive: true });
   }
@@ -33,6 +49,8 @@ const fromDataToFolder = async (data) => {
   await writeDataInFileFor(fileName, data.qType);
   await writeDataInFileFor(fileName, data.problemStatement);
   await writeDataInFileFor(fileName, data.details);
+
+  await fastTemplateCreator(folderName);
 };
 
 async function fetchfromUrl(url) {
@@ -70,7 +88,6 @@ async function fetchfromUrl(url) {
     console.log(`\n*** Error Occured: ` + error);
   }
 }
-
 
 module.exports.fetchfromUrl = fetchfromUrl;
 module.exports.fromDataToFolder = fromDataToFolder;
