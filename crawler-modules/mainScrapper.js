@@ -10,10 +10,10 @@ const getExtraction = async (el, type) => {
 const writeDataInFileFor = async (filename, data) => {
   await fs.appendFile(filename, `${data.toString()}\n\n`, {}, (err) => {
     if (err) {
-      console.error("!!! adding sequence of dataStream() error: " + err);
+      console.error("!!! adding sequence of dataStream() error:🐱‍🏍 " + err);
     }
     console.log(
-      `\n\n### web-worker writes data into the: ${filename} clusting...`
+      `\n\n### web-worker writes data into the: ${filename} clusting...🐱‍🏍`
     );
   });
 };
@@ -42,7 +42,7 @@ const fastTemplateCreator = async (folderName) => {
       if (err) {
         console.error(`\n\n!!! Error while creating sol.cpp`);
       } else {
-        console.log(`\n\n#### sol.cpp for C++ file was created!!`);
+        console.log(`\n\n#### sol.cpp for C++ file was created!!❤😍`);
       }
     }
   );
