@@ -2,7 +2,7 @@ const runner = require('./crawler-modules/runner');
 
 function entryPoint(url) {
   runner.runner(url);
-  console.log(`# LeetCode Crawler already started hunting`);
+  console.log(`\n\n## LeetCode Crawler already started hunting`);
 }
 
 

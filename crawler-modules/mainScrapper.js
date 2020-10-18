@@ -1,19 +1,37 @@
 const { puppeteer, path, fs } = require("./imports");
 
+let URL = null;
+
 const getExtraction = async (el, type) => {
   const rawText = await el.getProperty(type);
   return await rawText.jsonValue();
 };
 
 const writeDataInFileFor = async (filename, data) => {
-  await fs.appendFile(filename, data.toString() + "\n\n", {}, (err) => {
+  await fs.appendFile(filename, `${data.toString()}\n\n`, {}, (err) => {
     if (err) {
       console.error("!!! adding sequence of dataStream() error: " + err);
     }
     console.log(
-      1`\n\n### web-worker writes data into the: ${filename} clusting...`
+      `\n\n### web-worker writes data into the: ${filename} clusting...`
     );
   });
+};
+
+const attachedProblemLink = async (filename) => {
+  await fs.appendFile(
+    filename,
+    `\n### Problem Statement Link: ${URL}\n`,
+    {},
+    (err) => {
+      if (err) {
+        console.error(`\n\n!!! Attaching Link URL failed...`);
+      }
+      console.log(
+        `\n\n### web-working writes URL into the ${filename} using caching...`
+      );
+    }
+  );
 };
 
 const fastTemplateCreator = async (folderName) => {
@@ -38,7 +56,7 @@ const fromDataToFolder = async (data) => {
     fs.mkdirSync(folderName, { recursive: true });
   }
 
-  await fs.writeFile(fileName, `# ${data.title}`, (err) => {
+  await fs.writeFile(fileName, `# ${data.title} | ${data.qType} `, (err) => {
     if (err) {
       console.log(`Error on Writing File ${folderName}/readme.md `, err);
     }
@@ -46,19 +64,22 @@ const fromDataToFolder = async (data) => {
   });
 
   // clusiting partial DB sharding
-  await writeDataInFileFor(fileName, data.qType);
+  await attachedProblemLink(fileName);
   await writeDataInFileFor(fileName, data.problemStatement);
   await writeDataInFileFor(fileName, data.details);
 
+  // fast template creator C++ IO
   await fastTemplateCreator(folderName);
 };
 
 async function fetchfromUrl(url) {
   try {
-    console.log(`# Leetcode Crawler is on...`);
+    URL = url;
+    console.log(`\n\n# Leetcode Crawler is on...`);
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
+    console.log(`\n\n### Crawler reached the URI destination...`);
 
     const [titleEl] = await page.$x(
       '//*[@id="app"]/div/div[2]/div[1]/div/div[1]/div/div[1]/div[1]/div/div[2]/div/div[1]/div[1]'
