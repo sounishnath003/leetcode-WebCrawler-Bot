@@ -1,27 +1,24 @@
+const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
-const axios = require("axios").default;
 const fs = require("fs");
 
-function fetchfromUrl(url) {
+async function fetchfromUrl(url) {
   try {
-    const rawData = axios.get(url).then((res) => res.data);
-    return rawData;
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
+
+    const [el] = await page.$x('//*[@id="app"]/div/div[2]/div[1]/div/div[1]/div/div[1]/div[1]/div/div[2]/div/div[1]/div[1]');
+    console.log(el.toString())
+
+    browser.close();
   } catch (error) {
     console.log(`Error Occured: ` + error);
   }
 }
 
-const customScrapper = async (docHTML) => {
-  console.log(`## Hold on... started Crawling...`);
-  const $ = cheerio.load(docHTML);
-
-  // let title = $(".css-v3d350").__reactEventHandlers$ou4q4w0vnij.children[2];
-  // console.log(title);
-};
-
 const runner = async (url) => {
   const doc = await fetchfromUrl(url);
-  await customScrapper(doc);
 };
 
 function entryPoint() {
